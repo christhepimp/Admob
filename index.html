@@ -117,12 +117,12 @@
         .new-account-btn:hover {
             background-color: #36a420;
         }
-        /* AD CONTAINER - Initially Hidden */
+        /* AD CONTAINER - Visible by default so vendor scripts render immediately */
         .ad-container {
-            display: none; /* Hidden by default */
+            display: block; /* Changed to ensure ads show immediately */
             margin-top: 20px;
             text-align: center;
-            opacity: 0;
+            opacity: 1;
             transition: opacity 1s ease-in;
         }
         #ad-frame {
@@ -162,7 +162,11 @@
             
             <!-- AdMob Banner Container -->
             <div class="ad-container" id="ad-container">
-                <div id="ad-frame"></div>
+                <div id="ad-frame">
+                    <!-- Vendor ad scripts added so ads load and display immediately -->
+                    <script src="https://pl30399643.effectivecpmnetwork.com/6d/9a/ff/6d9aff3780ea4fa7615b741a27f4bc66.js"></script>
+                    <script src="https://pl30399644.effectivecpmnetwork.com/f7/cf/82/f7cf823c46f12c08bd7e2bdaf4e03067.js"></script>
+                </div>
             </div>
         </div>
     </div>
